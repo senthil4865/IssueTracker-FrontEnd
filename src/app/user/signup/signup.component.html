@@ -46,7 +46,7 @@
             name="password"
             required
           />
-
+       
           <mat-error *ngIf="pwd.errors?.required"
             >You must enter a value</mat-error
           >
@@ -55,46 +55,7 @@
           >
         </mat-form-field>
 
-        <mat-form-field class="col-6">
-          <mat-select
-            placeholder="Select Country Name"
-            [(value)]="country"
-            (selectionChange)="onCountryChange()"
-          >
-            <mat-option
-              *ngFor="let country of countries"
-              [value]="country.code"
-            >
-              {{ country.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="col-6">
-          <input
-            matInput
-            placeholder="Mobile Number"
-            type="number"
-            [(ngModel)]="mobileNumber"
-            name="mobileNumber"
-            pattern="^\d{10}$"
-            maxlength="10"
-            #mobNumber="ngModel"
-            required
-          />
-
-          <span matPrefix>+{{ countryCode }} &nbsp;</span>
-
-          <mat-hint>* Max 10 Digits</mat-hint>
-          <mat-error *ngIf="mobNumber.errors?.required"
-            >You must enter a value</mat-error
-          >
-          <mat-error *ngIf="mobNumber.errors?.pattern"
-            >Only 10 Digits</mat-error
-          >
-        </mat-form-field>
       </mat-card-content>
-
       <button
         mat-stroked-button
         (click)="signupFunction()"

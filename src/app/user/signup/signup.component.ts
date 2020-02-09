@@ -34,8 +34,6 @@ export class SignUpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getCountries();
-    this.getCountryCodes();
   } 
 
 
@@ -44,35 +42,7 @@ export class SignUpComponent implements OnInit {
   }//end of goToSign function
 
 
-  public getCountries() {
-    this.appService.getCountryNames().subscribe((data) => {
-        this.allCountries = data;
-        for (let i in data) {
 
-          let singleCountry = {
-            name: data[i],
-            code: i
-          }
-          this.countries.push(singleCountry);
-        }
-        this.countries = this.countries.sort((first, second) => {
-          return first.name.toUpperCase() < second.name.toUpperCase() ? -1 : (first.name.toUpperCase() > second.name.toUpperCase() ? 1 : 0);
-        });//end sort
-      })//end subscribe
-
-  }//end getCountries
-
-  public getCountryCodes() {
-    this.appService.getCountryNumbers()
-      .subscribe((data) => {
-        this.countryCodes = data;
-      })//end subscribe
-  }//end getCountriesCodes
-
-  onCountryChange(){
-    this.countryCode = this.countryCodes[this.country];
-    this.countryName = this.country
-  }
 
   getErrorMessage() {
     return this.email.hasError('required') ? 'You must enter a value' :
@@ -87,12 +57,6 @@ export class SignUpComponent implements OnInit {
     }
     else if (!this.lastName) {
       this.toastr.warning("Last Name is required", "Warning!");
-    }
-    else if (!this.mobileNumber) {
-      this.toastr.warning("Mobile Number is required", "Warning!");
-    }
-    else if (!this.country) {
-      this.toastr.warning("Country is required", "Warning!");
     }
     else if (!this.email.value) {
       this.toastr.warning("Email is required", "Warning!");
@@ -109,10 +73,8 @@ export class SignUpComponent implements OnInit {
       let data = {
         firstName: this.firstName,
         lastName: this.lastName,
-        mobileNumber: `${this.countryCode} ${this.mobileNumber}`,
         email: this.email.value,
         password: this.password,
-        countryName: this.countryName,
       }
       this.appService.signUp(data)
         .subscribe((apiResponse) => {
