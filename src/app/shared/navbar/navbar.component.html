@@ -1,0 +1,68 @@
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Notifications</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="small-card " *ngIf="noNotify">
+          Notifications Box empty!
+        </div>
+        <div *ngFor="let notify of notifications" class="hover-shadow">
+          <div  class="small-card ">
+            <a style="color: #ff4081;margin-left: 4px;" [routerLink]="['/issue/issue-description/',notify.issueId]" data-dismiss="modal">
+              {{notify.message}}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ff4081;color:white;" >
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+          aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a *ngIf="userName" class="navbar-brand" [routerLink]="['/issue/personal-dashboard']">Tracking.IO</a>
+        <a *ngIf="!userName" class="navbar-brand" href="#">Tracking.IO</a>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item mt-2 ml-5 mr-5 active">
+              <a  [routerLink]="['/issue/personal-dashboard']" >Personal DashBoard <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item mt-2 ml-5 mr-5 ">
+              <a  [routerLink]="['/issue/issue-description/save']" >Report Issue</a>
+            </li>
+            <li class="nav-item mt-2 ml-5 mr-5 ">
+              <a  [routerLink]="['/issue/search-view/search']" >Search View</a>
+            </li>
+            <li class="nav-item ml-5 mr-5 ">
+              <button class="icoBtn" mat-icon-button>
+                <mat-icon [matBadge]="count" matBadgeColor="accent" data-toggle="modal" data-target="#exampleModal"
+                  (click)="clearNotify()">notifications_active</mat-icon>
+              </button>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <div style="margin-right:5px">
+              <a> Hi , {{ userName ? userName : "Admin" }} </a>
+            </div>
+      
+            <div class="btn-group" role="group" style="float: right;">
+              <button mat-stroked-button 
+              style="background-color: #3f51b5;color:white;" (click)="logoutFunction()" >
+                Logout
+              </button>
+            </div>
+          </form>
+        </div>
+      </nav>

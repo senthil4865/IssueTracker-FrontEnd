@@ -1,0 +1,119 @@
+<app-navbar></app-navbar>
+
+ 
+<div class="container">
+
+    <div  class="row d-flex justify-content-center">
+    
+        <mat-form-field class="col-md-6">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+          </mat-form-field>
+          
+          <div class="example-container mat-elevation-z8">
+            <div class="example-loading-shade"
+                 *ngIf="isLoadingResults">
+              <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            </div>
+          
+            <mat-table #table [class.isMobile]="isMobile"  [dataSource]="dataSource" class="example-table"
+                       matSort matSortActive="created" matSortDisableClear matSortDirection="asc" [class.isMobile]="isMobile">
+          
+              <!--- Note that these columns can be defined in any order.
+                    The actual rendered columns are set as a property on the row definition" -->
+          
+              <!-- Title Column -->
+              <ng-container matColumnDef="Title">
+                <mat-header-cell *matHeaderCellDef>Title <i class="fa fa-sort ml-4" (click)="sortBy('title')" ></i> </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Title:</span>
+                  {{ row.title }}</mat-cell>
+              </ng-container>
+          
+              <!-- Reporter Column -->
+              <ng-container matColumnDef="Reporter">
+                <mat-header-cell *matHeaderCellDef>Reporter<i class="fa fa-sort ml-4" (click)="sortBy('reporter')" ></i></mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Reporter:</span>
+                  {{row.reporter }}</mat-cell>
+              </ng-container>
+          
+              <!-- Status Column -->
+              <ng-container matColumnDef="Status">
+                <mat-header-cell *matHeaderCellDef>Status<i class="fa fa-sort ml-4" (click)="sortBy('status')" ></i></mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Status:</span>
+                  {{ row.status }}</mat-cell>
+              </ng-container>
+          
+              <!-- Created Column -->
+              <ng-container matColumnDef="Date">
+                <mat-header-cell *matHeaderCellDef
+                                 mat-sort-header
+                                 disableClear="true">
+                  Date<i class="fa fa-sort ml-4" (click)="sortBy('date')" ></i>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <span class="mobile-label">Date:</span>
+                  {{ row.date | date }}</mat-cell>
+              </ng-container>
+
+                  <!-- Created Column -->
+                  <ng-container matColumnDef="View">
+                    <mat-header-cell *matHeaderCellDef
+                                     mat-sort-header
+                                     disableClear="true">
+                      View
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      <span class="mobile-label">View:</span>
+                      <i (click)="viewModeOn()" style="color:#3f51b5;" matTooltip="View" [routerLink]="['/issue/issue-description/',row.issueId]" class="fa fa-eye fa-1x"></i></mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Edit">
+                    <mat-header-cell *matHeaderCellDef
+                                     mat-sort-header
+                                     disableClear="true">
+                      Edit
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      <span class="mobile-label">Edit:</span>
+                      <a mat-icon-button color='primary' matTooltip="Edit" (click)="EditModeOn()"  [routerLink]="['/issue/issue-description/',row.issueId]">
+                     
+                      <i class="material-icons"> edit</i></a></mat-cell>
+                  </ng-container>
+
+                  
+                  <ng-container matColumnDef="Delete">
+                    <mat-header-cell *matHeaderCellDef
+                                     mat-sort-header
+                                     disableClear="true">
+                      Delete
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      <span class="mobile-label">Delete:</span>
+                      <i  (click)="Delete(row)" style="color: #FF2400;"  matTooltip="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>
+
+                     </mat-cell>
+                  </ng-container>
+
+
+          
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+          
+            <mat-paginator  class="mat-elevation-z5" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="pageIndex"
+            (page)="pageEvent = getServerData($event)">
+          </mat-paginator>
+          </div>
+    </div>
+</div>
+
+
+
+
+
+<div *ngIf="progressSpinner" class="spinner">
+  <div class="spinner-grow" style="width: 5rem; height: 5rem;color:#3f51b5;" role="status">
+    <span class="sr-only">Loading...</span>
+  </div> 
